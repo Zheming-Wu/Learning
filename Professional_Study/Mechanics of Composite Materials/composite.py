@@ -14,6 +14,8 @@ class layer:
             S66=1/GLT
             self.S=np.array([[S11,S12,0],[S12,S22,0],[0,0,S66]])
             self.Q=np.linalg.inv(self.S)
+            self.S_=self.S
+            self.Q_=self.Q
             pass
         elif name=='HT3/QY8911':
             EL,ET,vLT,GLT=135e9,8.8e9,0.33,4.47e9
@@ -23,6 +25,8 @@ class layer:
             S66=1/GLT
             self.S=np.array([[S11,S12,0],[S12,S22,0],[0,0,S66]])
             self.Q=np.linalg.inv(self.S)
+            self.S_=self.S
+            self.Q_=self.Q
             pass
         else:
             pass
@@ -43,6 +47,7 @@ class layer:
         S66=1/GLT
         self.S=np.array([[S11,S12,0],[S12,S22,0],[0,0,S66]])
         self.Q=np.linalg.inv(self.S)
+        self.S_=self.S
         self.Q_=self.Q
         pass
 
@@ -54,6 +59,7 @@ class layer:
         self.Q=np.array([[Q11,Q12,0],[Q12,Q22,0],[0,0,Q66]])
         self.S=np.linalg.inv(self.Q)
         self.Q_=self.Q
+        self.S_=self.S
         pass
 
     def set_by_S(self,S11,S22,S12,S66):
@@ -63,9 +69,11 @@ class layer:
         S11,S22,S12,S66=S11*1e-9,S22*1e-9,S12*1e-9,S66*1e-9
         self.S=np.array([[S11,S12,0],[S12,S22,0],[0,0,S66]])
         self.Q=np.linalg.inv(self.S)
+        self.S_=self.S
         self.Q_=self.Q 
         pass
 
+    '''
     def set_angle_degree(self,theta):
         self.angle=theta/180*np.pi 
         m,n=np.cos(theta),np.sin(theta)
@@ -83,6 +91,44 @@ class layer:
         Q_=np.dot(np.dot(T_inv,self.Q),T)
         self.Q_=Q_
         pass
+    '''
+    def set_angle_degree(self,angle):
+        self.angle=angle/180*np.pi 
+        self.__Q2Q_()
+        self.__S2S_()
+        pass
+
+    def set_angle_rad(self,angle):
+        self.angle=angle
+        self.__Q2Q_()
+        self.__S2S_()
+        pass
+
+    def __Q2Q_(self):
+        angle=self.angle
+        m,n=np.cos(angle),np.sin(angle)
+        T=np.array([[m*m,n*n,2*m*n],[n*n,m*m,-2*m*n],[-m*n,m*n,m*m-n*n]])
+        T_inv=np.linalg.inv(T)
+        Q=self.Q
+        Q[:,2]=Q[:,2]*2
+        Q_=np.dot(np.dot(T_inv,Q),T)
+        Q_[:,2]=Q_[:,2]/2
+        Q[:,2]=Q[:,2]/2
+        self.Q_=Q_
+        pass
+
+    def __S2S_(self):
+        angle=self.angle
+        m,n=np.cos(angle),np.sin(angle)
+        T=np.array([[m*m,n*n,2*m*n],[n*n,m*m,-2*m*n],[-m*n,m*n,m*m-n*n]])
+        T_inv=np.linalg.inv(T)
+        S=self.S
+        S[2]=S[2]/2
+        S_=np.dot(np.dot(T_inv,S),T)
+        S_[2]=S_[2]*2
+        S[2]=S[2]*2
+        self.S_=S_
+        pass
 
     def set_t(self,t):
         self.t=t
@@ -99,5 +145,6 @@ class layer:
         print('Q:\t',self.Q)
         print('S:\t',self.S)
         print('Q_:\t',self.Q_)
+        print('S_:\t',self.S_)
         pass
-
+    
