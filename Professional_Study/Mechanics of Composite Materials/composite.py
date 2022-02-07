@@ -148,3 +148,87 @@ class layer:
         print('S_:\t',self.S_)
         pass
     
+class compound:
+    def __init__(self,layer_list,status='S'):
+        if status=='S':
+            layout=np.array(layer_list)
+            reverse=layout[::-1]
+            self.layout=np.append(layout,reverse)
+            pass
+        else:
+            self.layout=np.array(layer_list)
+            pass
+        self.__get_t()
+        self.__get_angle()
+        self.h=np.sum(self.t)
+        self.__ABDcal()
+        self.__abdcal()
+        pass
+
+    def __get_t(self):
+        t=np.array([])
+        for item in self.layout:
+            t=np.append(t,item.t)
+            self.t=t
+            pass
+        pass
+
+    def __get_angle(self):
+        angle=np.array([])
+        for item in self.layout:
+            angle=np.append(angle,item.angle)
+            self.angle=angle
+            pass
+        pass
+
+    def __ABDcal(self):
+        h_temp=0
+        A,B,D=0,0,0
+        for item in self.layout:
+            if h_temp<self.h:
+                bottom=h_temp-self.h/2
+                head=bottom+item.t
+                A=A+item.Q_*np.abs(head-bottom)
+                B=B+item.Q_*(head**2-bottom**2)/2
+                D=D+item.Q_*np.abs(head**3-bottom**3)/3
+                h_temp=h_temp+item.t 
+                pass
+            else:
+                break
+            pass
+        self.A=A
+        self.B=B
+        self.D=D 
+        pass
+
+    def __abdcal(self):
+        A,B,D=self.A,self.B,self.D
+        B_=-np.dot(np.linalg.inv(A),B)
+        C_=np.dot(B,np.linalg.inv(A))
+        D_=D-np.dot(np.dot(B,np.linalg.inv(A)),B)
+        self.a=np.linalg.inv(A)-np.dot(np.dot(B_,np.linalg.inv(D_)),C_)
+        self.b=np.dot(B_,np.linalg.inv(D_))
+        self.d=np.linalg.inv(D_)
+        pass
+
+    def strain_cal(self,Nx=0,Ny=0,Nxy=0,Mx=0,My=0,Mxy=0,outermost=False):
+        f=np.array([[Nx,Ny,Nxy,Mx,My,Mxy]]).T
+        a,b,d=self.a,self.b,self.d
+        ad=np.r_[np.c_[a,b],np.c_[b,d]]
+        eps_kappa_list=np.dot(ad,f)
+        self.eps_kappa_list=eps_kappa_list
+        self.eps0_x=eps_kappa_list[0]
+        self.eps0_y=eps_kappa_list[1]
+        self.eps0_xy=eps_kappa_list[2]
+        self.kappa_x=eps_kappa_list[3]
+        self.kappa_y=eps_kappa_list[4]
+        self.kappa_xy=eps_kappa_list[5]
+        if outermost==True:
+            eps_x=self.eps0_x+self.h*self.kappa_x/2
+            eps_y=self.eps0_y+self.h*self.kappa_y/2
+            eps_xy=self.eps0_xy+self.h*self.kappa_xy/2
+            return np.array([[eps_x,eps_y,eps_xy]]).T
+        else:
+            return eps_kappa_list
+        pass
+    pass
