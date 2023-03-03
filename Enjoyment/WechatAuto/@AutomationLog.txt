@@ -1,0 +1,3 @@
+2023-03-02 20:01:20.681 wxauto.py[193] roll_to -> Find Control Timeout(10s): {Name: '阿黄酱🍼', ControlType: ListItemControl}
+2023-03-02 20:01:55.458 wxauto.py[158] GetSessionList -> Find Control Timeout(10s): {ControlType: ListItemControl}
+2023-03-02 20:02:08.033 wxauto.py[185] ChatWith -> 
