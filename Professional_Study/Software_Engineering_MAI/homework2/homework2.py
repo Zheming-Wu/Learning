@@ -88,4 +88,3 @@ if __name__ == '__main__':
     robot1.power_switch(True, check_status=False)
     robot1.robot(0, 0, 5, 9, 0)
     robot1.robot(2, 1, 0, 0, 1)
-
