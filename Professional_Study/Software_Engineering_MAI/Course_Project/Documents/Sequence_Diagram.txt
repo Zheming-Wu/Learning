@@ -1,0 +1,79 @@
+@startuml
+
+' Playtime Setting 
+Parents -> Manager: Playtime command 
+activate Manager
+
+Manager -> Cloud: Data/command upload 
+activate Cloud
+
+Cloud -> Monitor: Playtime setting 
+activate Monitor
+
+Monitor -> Children: Playtime reminder 
+activate Children
+
+
+Children --> Monitor: Playtime reminder response
+deactivate Children
+
+Monitor --> Cloud: Playtime setting response 
+deactivate Monitor
+
+Cloud --> Manager: Data download 
+deactivate Cloud
+
+Manager --> Parents: Playtime command response 
+deactivate Manager
+
+
+' Automatic PC lock/unlock  
+activate Cloud
+Cloud -> Monitor: Playtime comparison 
+activate Monitor
+
+Monitor -> Children: PC lock/unlock  
+activate Children
+
+
+Children --> Monitor: PC lock/unlock done 
+deactivate Children
+
+Monitor --> Cloud: PC lock/unlock message response 
+deactivate Monitor
+
+Cloud --> Manager: PC lock/unlock message download 
+deactivate Cloud
+
+activate Manager
+Manager --> Parents: PC lock/unlock notification
+deactivate Manager
+
+
+' Command PC lock/unlock  
+Parents -> Manager: PC lock/unlock command 
+activate Manager
+
+Manager -> Cloud: Data/command upload 
+activate Cloud
+
+Cloud -> Monitor: PC lock/unlock command download 
+activate Monitor
+
+Monitor -> Children: PC lock/unlock 
+activate Children
+
+
+Children --> Monitor: PC lock/unlock done 
+deactivate Children
+
+Monitor --> Cloud: PC lock/unlock message response 
+deactivate Monitor
+
+Cloud --> Manager: PC lock/unlock message download 
+deactivate Cloud
+
+Manager --> Parents: PC lock/unlock notification
+deactivate Manager 
+
+@enduml

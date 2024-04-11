@@ -1,0 +1,39 @@
+@startuml
+class Syestem {
+ MonitorSwitch ()
+ SetLimit (TimePerDay)
+ SetWhitelist (AppName)
+ RemoteControl ()
+ ShowReport()
+}
+
+
+class Application {
+  Monitor ()
+  string Report ()
+} 
+
+class Monitor {
+ BackgroundMonitor ()
+ int TimeStatistics ()
+ int GameTimeCalculation ()
+ bool OvertimeCheck ()
+ LockPC ()
+ UnlockPC ()
+}
+
+class Whitelist {
+ Add (AppName)
+ Delete (AppName)
+}
+
+class TimeLimit {
+ int SetLimit (Time)
+}
+
+Syestem *- Application : has
+Application --> Whitelist 
+Application --> TimeLimit
+Application -> Monitor : > depend on
+
+@enduml
