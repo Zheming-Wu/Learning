@@ -3,9 +3,6 @@ import psutil
 import time
 
 
-black_list = []
-
-
 def __proc_exist(process_name):
     pl = psutil.pids()
     for pid in pl:
@@ -114,17 +111,19 @@ def terminate_process(message):
 @bot.message_handler(commands=['monitor'])
 def send_auto_terminate_process(message):
     bot.reply_to(message, "How many seconds do you want to monitor your computer?")
-    with open('black_list.txt', 'r', encoding='utf-8') as file:
-        for line in file:
-            stripped_line = line.strip()
-            if stripped_line:
-                black_list.append(stripped_line)
     bot.register_next_step_handler(message, auto_terminate_process)
     pass
 
 
 def auto_terminate_process(message):
     duration = int(message.text)
+
+    black_list = []
+    with open('black_list.txt', 'r', encoding='utf-8') as file:
+        for line in file:
+            stripped_line = line.strip()
+            if stripped_line:
+                black_list.append(stripped_line)
 
     while True:
         for process_name in black_list:
@@ -148,6 +147,7 @@ def auto_terminate_process(message):
 @bot.message_handler(commands=['report'])
 def send_report_process(message):
 
+    black_list = []
     with open('black_list.txt', 'r', encoding='utf-8') as file:
         for line in file:
             stripped_line = line.strip()
@@ -172,6 +172,7 @@ def send_report_process(message):
 
 @bot.message_handler(commands=['add_blacklist'])
 def send_add_blacklist_process(message):
+    black_list = []
     with open('black_list.txt', 'r', encoding='utf-8') as file:
         for line in file:
             stripped_line = line.strip()
