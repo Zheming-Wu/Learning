@@ -1,39 +1,41 @@
 @startuml
-class Syestem {
- MonitorSwitch ()
- SetLimit (TimePerDay)
- SetWhitelist (AppName)
- RemoteControl ()
- ShowReport()
+class Manager {
+  send_welcome(message)
+  send_help(message)
+  send_check_process(message)
+  send_terminate_process(message)
+  send_auto_terminate_process(message)
+  send_report_process(message)
+  send_add_blacklist_process(message)
 }
 
 
 class Application {
-  Monitor ()
-  string Report ()
+  __proc_exist(process_name)
+  __proc_terminate(pid)
+  __proc_time(pid)
+  __bot()
 } 
 
 class Monitor {
- BackgroundMonitor ()
- int TimeStatistics ()
- int GameTimeCalculation ()
- bool OvertimeCheck ()
- LockPC ()
- UnlockPC ()
+  check_process(message)
+  terminate_process(message)
+  auto_terminate_process(message)
+  report_process(message)
+  add_blacklist_process(message)
 }
 
-class Whitelist {
- Add (AppName)
- Delete (AppName)
+class Blacklist {
+  add_blacklist(message)
+  delete_blacklist(message)
 }
 
 class TimeLimit {
- int SetLimit (Time)
+  set_time_limit(message)
 }
 
-Syestem *- Application : has
-Application --> Whitelist 
+Manager *- Application : has
+Application --> Blacklist 
 Application --> TimeLimit
 Application -> Monitor : > depend on
-
 @enduml

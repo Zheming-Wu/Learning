@@ -3,7 +3,7 @@
         The purpose of this document is to describe in detail the functional and performance requirements of parental monitoring software so that the development team can understand and implement these requirements.
 
     1.2 Range
-        This software will provide parents with the ability to monitor their children's computer usage, including time management, application monitoring, lock screen control, report generation, etc.
+        This software will provide parents with the ability to monitor their children's computer usage, including time management, application process monitoring, game process interrupt/continue control, report generation, etc.
 
     1.3 References
         Market research report
@@ -17,7 +17,7 @@
         User account management
         Application monitoring and classification
         Time management and limits
-        Computer lock/unlock control
+        Game process interrupt/continue control
         Reporting and notification system
         Technical support and user assistance
 
@@ -34,9 +34,9 @@
         3.3.1 Time Limit Setting: Parents can set a daily or weekly time limit for game play.
         3.3.2 Custom Schedule: Parents can create and adjust their child's schedule, including study, rest and play time.
 
-    3.4 Computer Lock / Unlock 
-        3.4.1 Automatic computer lock: Automatically locks the computer when the preset time limit is reached.
-        3.4.2 Remote Lock/Unlock: Provides the remote lock/unlock function.
+    3.4 Game process interrupt/continue 
+        3.4.1 Automatic game process interrupt: Automatically interrupt the game process when the preset game time limit is reached.
+        3.4.2 Remote game process interrupt/continue: Provides the remote game process interrupt/continue function.
 
     3.5 Reports and Notifications
         3.5.1 Usage Reports: Generate detailed playtime reports.

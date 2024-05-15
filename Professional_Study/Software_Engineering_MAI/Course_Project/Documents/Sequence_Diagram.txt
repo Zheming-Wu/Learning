@@ -1,5 +1,4 @@
 @startuml
-
 ' Playtime Setting 
 Parents -> Manager: Playtime command 
 activate Manager
@@ -27,53 +26,52 @@ Manager --> Parents: Playtime command response
 deactivate Manager
 
 
-' Automatic PC lock/unlock  
+' Automatic Game process interrupt/continue  
 activate Cloud
 Cloud -> Monitor: Playtime comparison 
 activate Monitor
 
-Monitor -> Children: PC lock/unlock  
+Monitor -> Children: Game process interrupt/continue  
 activate Children
 
 
-Children --> Monitor: PC lock/unlock done 
+Children --> Monitor: Game process interrupt/continue done 
 deactivate Children
 
-Monitor --> Cloud: PC lock/unlock message response 
+Monitor --> Cloud: Game process interrupt/continue message response 
 deactivate Monitor
 
-Cloud --> Manager: PC lock/unlock message download 
+Cloud --> Manager: Game process interrupt/continue message download 
 deactivate Cloud
 
 activate Manager
-Manager --> Parents: PC lock/unlock notification
+Manager --> Parents: Game process interrupt/continue notification
 deactivate Manager
 
 
-' Command PC lock/unlock  
-Parents -> Manager: PC lock/unlock command 
+' Command Game process interrupt/continue  
+Parents -> Manager: Game process interrupt/continue command 
 activate Manager
 
 Manager -> Cloud: Data/command upload 
 activate Cloud
 
-Cloud -> Monitor: PC lock/unlock command download 
+Cloud -> Monitor: Game process interrupt/continue command download 
 activate Monitor
 
-Monitor -> Children: PC lock/unlock 
+Monitor -> Children: Game process interrupt/continue 
 activate Children
 
 
-Children --> Monitor: PC lock/unlock done 
+Children --> Monitor: Game process interrupt/continue done 
 deactivate Children
 
-Monitor --> Cloud: PC lock/unlock message response 
+Monitor --> Cloud: Game process interrupt/continue message response 
 deactivate Monitor
 
-Cloud --> Manager: PC lock/unlock message download 
+Cloud --> Manager: Game process interrupt/continue message download 
 deactivate Cloud
 
-Manager --> Parents: PC lock/unlock notification
-deactivate Manager 
-
+Manager --> Parents: Game process interrupt/continue notification
+deactivate Manager
 @enduml
